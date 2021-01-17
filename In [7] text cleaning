@@ -1,0 +1,27 @@
+import pymorphy2
+import string
+morph = pymorphy2.MorphAnalyzer()
+
+#text = "Съешь .150 этих .. мягких\ французских\\ булок да - выпей чаю"
+
+def delete_punct(text):
+    tt = str.maketrans(dict.fromkeys(string.punctuation))
+    text = text.translate(tt)
+    return text
+
+def lemmatize(text:str):
+    text = delete_punct(text)
+    words = text.split() # разбиваем текст на слова
+    res = list()
+    #res1 = ""
+    for word in words:
+        p = morph.parse(word)[0]
+        res.append(p.normal_form)
+        #res1 = res1 + " " + p.normal_form
+    return res
+
+def cleaning(test: str):
+    return ' '.join(map(str, lemmatize(test))) # or lemmatize(test) with res1
+    
+ads['clear'] = ads['text'].apply(cleaning)
+twits['clear'] = twits['text'].apply(cleaning)
